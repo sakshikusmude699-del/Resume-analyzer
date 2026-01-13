@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>AI Resume Analyzer</h1>
+    <p class="subtitle">
+      Upload your resume to get job role prediction and recommendations
+    </p>
+
+    <form method="POST" enctype="multipart/form-data" class="upload-box">
+      <input type="file" name="resume" accept=".pdf" required />
+      <button type="submit">Analyze Resume</button>
+    </form>
+
+    {% if predicted_role %}
+      <div class="card">
+        <h2>Predicted Job Role</h2>
+        <p class="highlight">{{ predicted_role }}</p>
+      </div>
+    {% endif %}
+
+    {% if skills %}
+      <div class="card">
+        <h2>Extracted Skills</h2>
+        <div class="skills">
+          {% for skill in skills %}
+            <span class="skill">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if job_recommendations %}
+      <div class="card">
+        <h2>Recommended Jobs</h2>
+        <ul>
+          {% for job in job_recommendations %}
+            <li>
+              <strong>{{ job.job_role }}</strong>
+              — {{ (job.similarity * 100) | round(2) }}% match
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</body>
+
+</html>
